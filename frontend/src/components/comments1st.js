@@ -71,7 +71,7 @@ function Comments1st() {
   const addComment=()=>{
     /*CreateACommentService.create(comments).then(response =>{
       setCommentArray(response.data);*/
-      axios.post('https://project1-backend2.onrender.com/api/v1/comment',{
+      axios.post('https://project1-backend3.onrender.com/api/v1/comment',{
       comment_id:uuid(),
       user_id:comments.userId,
       username:comments.username,
@@ -96,7 +96,7 @@ function Comments1st() {
       console.log("deleted");
     })*/
       console.log(usersName);
-      const response= await axios.delete(`https://project1-backend2.onrender.com/api/v1/deleteComment/${comment_id}`).then(
+      const response= await axios.delete(`https://project1-backend3.onrender.com/api/v1/deleteComment/${comment_id}`).then(
         ()=>{console.log("success");}
       )
       
@@ -109,7 +109,7 @@ function Comments1st() {
 }
   const editComment=async(text, usersName, comment_id)=>{
     if((usersName===(userName))|| user.name==adminName){
-        const response = await axios.put(`https://project1-backend2.onrender.com/api/v1/updateComment/${comment_id}`, {
+        const response = await axios.put(`https://project1-backend3.onrender.com/api/v1/updateComment/${comment_id}`, {
           comment_text: text
         }).then(
           ()=>{console.log("comment altered");}

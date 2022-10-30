@@ -39,7 +39,7 @@ function Comments2nd() {
   //const [hasPermission, setHasPermission] = useState("false");
   //const userName= user!=null ? user.name : "";
   
-  useEffect(() =>{
+  /*useEffect(() =>{
     const fetchResults = async () =>{
       try {
         let response= await commentsServiceR2.get().then(response => {
@@ -54,7 +54,7 @@ function Comments2nd() {
       }
     }
     fetchResults();
-  }, []);
+  }, []);*/
   
   const handleInputChange = (e) => {
     setComments({ ...comments,

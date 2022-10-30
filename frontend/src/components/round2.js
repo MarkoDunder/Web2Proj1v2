@@ -1,13 +1,13 @@
 import React,{useState, useEffect} from 'react';
 import { Table } from 'react-bootstrap';
 import resultsService from '../services/resultsService';
-
+import {round2} from "../results"
 function Round2() {
   
   const [results, setResults]=useState([]);
   const roundNumber=2;
   useEffect(() =>{
-    const fetchResults = async () =>{
+    /*const fetchResults = async () =>{
       try {
         let response= await resultsService.get(`/${roundNumber}`).then(response => {
           console.log(response);
@@ -18,8 +18,17 @@ function Round2() {
       } catch (error) {
         console.log(error);
       }
+    }*/
+    
+    let r2=JSON.parse(localStorage.getItem("Runda2MD"));
+    console.log(round2);
+    if(!r2){
+      localStorage.setItem("Runda2MD",JSON.stringify(round2));
+      r2=JSON.parse(localStorage.getItem("Runda2MD"));
     }
-    fetchResults();
+    
+    setResults(r2.games2);
+    
   }, []);
 
 
@@ -39,7 +48,7 @@ function Round2() {
           <tbody>
           {results && results.map((result) =>
                 <tr key={result.round_id}>
-                    <td>{result.name}</td>
+                    <td>{result.Team}</td>
                     <td>{result.wins}</td>
                     <td>{result.losses}</td>
                     <td>{result.draws}</td>

@@ -29,10 +29,6 @@ const Home = () => (
     <h3>Comments</h3>
     <Comments2nd/>
     <br/>
-    <h1>Round 3</h1>
-    <Round3/>
-    <h3>Comments</h3>
-    <br/>
     <h2>Upcoming matches :</h2>
     <Schedule/>
   </Fragment>

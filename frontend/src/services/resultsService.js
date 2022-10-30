@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL:"https://project1-backend3.onrender.com/api/v1/roundResults"
+    baseURL:"http://localhost:6060/api/v1/roundResults"
 });

@@ -6,12 +6,15 @@ import CreateACommentService from '../services/createACommentService';
 import deleteComment from '../services/deleteComment';
 import axios from 'axios';
 import uuid from 'react-uuid';
+import{comments2} from '../commentObj'
 
 function Comments2nd() {
   const {user, isAuthenticated}=useAuth0();
   let usersId="2a7";
   const userName=user!=null ? user.name : "";
   const adminName="admin@admin.com";
+  const[text,setText]=useState("");
+  const[index,setIndex]=useState();
   if(user!=null){
      usersId="272b79e0-564f-11ed-9b6a-0242ac120002";
       if(user.name === "user1@user1.com"){
@@ -63,63 +66,64 @@ function Comments2nd() {
       });
 };
 
-  /*const handleEditInput=(e)=>{
-    
-  }*/
+
+
+  const handleEditChange=(e)=>{
+    setText(e.target.value);
+
+  }
 
   let{comment_id,comment_text, username, timecreated, commRoundId, userId}=comments;
   const addComment=()=>{
-    /*CreateACommentService.create(comments).then(response =>{
-      setCommentArray(response.data);*/
-      axios.post('https://project1-backend3.onrender.com/api/v1/comment',{
-      comment_id:uuid(),
-      user_id:comments.userId,
-      username:comments.username,
-      timeCreated:dateFormated,
-      comment_text:comments.comment_text,
-      commRoundId:comments.commRoundId
-    }).then(()=>{
-      console.log("success");
-    })
+    
     }
 
   function handleChange(){
-  setCommentArray([...commentArray, {comment_text,comment_id, username, timecreated, commRoundId, userId}]);
-  console.log(commentArray);
-  addComment();
-}
-  
-  const removeComment= async(comment_id, usersName)=>{
-    
-    if((usersName===(userName))|| user.name==adminName){
-    /*let response= await deleteComment.remove(props).then(()=>{
-      console.log("deleted");
-    })*/
-      console.log(usersName);
-      const response= await axios.delete(`https://project1-backend3.onrender.com/api/v1/deleteComment/${comment_id}`).then(
-        ()=>{console.log("success");}
-      )
-      
+    const newComment={"content2":commentArray}
+    newComment.content2.push({comment_text,comment_id, username, timecreated, commRoundId, userId})
+    localStorage.setItem("Comments2",JSON.stringify(newComment));
+    console.log(newComment);
+    setCommentArray(newComment.content2);
   }
-   else{
-    console.log("You don't have permission");
-    alert("You don't have permission");
-   }
+
   
+  
+  const removeComment=(index)=>{
+    const toDelete=localStorage.getItem("Comments2");
+    let content=JSON.parse(toDelete);
+    let content2=content.content2;
+    content2.splice(index,1);
+    const newComment={"content2":content2}
+    localStorage.setItem("Comments2",JSON.stringify(newComment));
+    setCommentArray(content2);
 }
-  const editComment=async(text, usersName, comment_id)=>{
-    if((usersName===(userName))|| user.name==adminName){
-        const response = await axios.put(`https://project1-backend3.onrender.com/api/v1/updateComment/${comment_id}`, {
-          comment_text: text
-        }).then(
-          ()=>{console.log("comment altered");}
-        )
-    }
-    setIsClicked(false);
+  const editComment=()=>{
+    const toEdit=localStorage.getItem("Comments2");
+    let content=JSON.parse(toEdit);
+    let content2=content.content2;
+    content2[index].comment_text=text;
+    const newComment={"content2":content2}
+    localStorage.setItem("Comments2",JSON.stringify(newComment));
+    setCommentArray(content2);
   }
-  const handleButtonClick=()=>{
+  const handleButtonClick=(index)=>{
     setIsClicked(true);
+    setIndex(index);
   }
+
+  useEffect(() =>{
+   
+    
+    let comm2=JSON.parse(localStorage.getItem("Comments2"));
+
+    if(!comm2){
+      localStorage.setItem("Comments2",JSON.stringify(comments2));
+      comm2=JSON.parse(localStorage.getItem("Comments2"));
+    }
+    console.log(comm2)
+    setCommentArray(comm2.content2);
+    
+  }, []);
   
   return (
     <div>
@@ -142,12 +146,12 @@ function Comments2nd() {
         </thead>
         <tbody>
         {
-          commentArray.map((comment)=>{
-            return(<tr key={comment.comment_id}>
+          commentArray.map((comment,index)=>{
+            return(<tr key={index}>
               <td>{comment.username}</td>
               <td>{comment.timecreated}</td>
               <td>{comment.comment_text}</td>
-              <td><Button variant='primary' onClick={handleButtonClick}>Edit</Button></td>
+              <td><Button variant='primary' onClick={()=>handleButtonClick(index)}>Edit</Button></td>
               <td><Button variant='primary' onClick={()=>removeComment(comment.comment_id, comment.username)} >Delete</Button></td>
             </tr>)
           })
@@ -156,9 +160,9 @@ function Comments2nd() {
       </Table>
       {isClicked &&
       <div>
-      <input type="text" value={comments.comment_text} id="text" name="text" placeholder='edit your comment' onChange={handleInputChange} ></input>
+      <input type="text" value={text} id="text" name="text" placeholder='edit your comment' onChange={handleEditChange} ></input>
       <br/>
-      <Button variant='primary' onClick={()=>editComment(comments.comment_text, comments.username, comments.comment_id)}> Edit your comment</Button>
+      <Button variant='primary' onClick={()=>editComment()}> Edit your comment</Button>
       </div>
       }
     </div>

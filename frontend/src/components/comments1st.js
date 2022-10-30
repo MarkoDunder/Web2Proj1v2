@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useAuth0} from "@auth0/auth0-react";
 import { Button, Table, Form } from 'react-bootstrap';
-import commentServiceR1 from './services/commentServiceR2'
+//import commentServiceR1 from './services/commentServiceR2'
 import CreateACommentService from '../services/createACommentService';
 import deleteComment from '../services/deleteComment';
 import axios from 'axios';
@@ -39,7 +39,7 @@ function Comments1st() {
   //const [hasPermission, setHasPermission] = useState("false");
   //const userName= user!=null ? user.name : "";
   
-  useEffect(() =>{
+  /*useEffect(() =>{
     const fetchResults = async () =>{
       try {
         let response= await commentServiceR1.get().then(response => {
@@ -54,7 +54,7 @@ function Comments1st() {
       }
     }
     fetchResults();
-  }, []);
+  }, []);*/
   
   const handleInputChange = (e) => {
     setComments({ ...comments,
